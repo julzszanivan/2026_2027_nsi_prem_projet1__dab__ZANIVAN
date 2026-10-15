@@ -6,4 +6,15 @@ Il y aura donc 3 conditions dans le programme: que ce soit un montant divisible 
 1. si le reste de la divison euclidienne du montant donné par 10 nest pas egal a 0 : redemander une somme
 2. si  montant donné superieur au solde :  redemander une somme inferieur a celui-ci
 3. si montant donné superieur au plafond :  redemander une somme inferieur a celui-ci
-4. sinon: mettre a jour le solde (solde-montant_donné)
+4. si le montant inferieur a 0 : redemander une valeur superieur a 0
+5. sinon: mettre a jour le solde (solde-montant_donné)
+
+
+voici le retrait:
+on cherche a savoir quel billets donné a l'utilisateur en fonction du montant donné
+il y a 4 billets différents: 100 , 50 , 20 , 10
+1. on divise une première fois par 100 pour trouver combien de billets de 100 on donnera
+2. idem pour 50 après le reste de la divion par 100
+3. idem pour 20 après le reste de la divion par 50 et 100
+4. idem pour 10 après le reste de la divion par 20 , 50 et 100
+dire à l'utilisateur quel billet(s) il aura puis lui donner
