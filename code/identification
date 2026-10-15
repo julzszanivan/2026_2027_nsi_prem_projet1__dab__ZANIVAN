@@ -8,3 +8,5 @@ comptes_bancaires = {
 # État de la session en cours
 carte_inseree = None    #on part du principe qu'il n'y a pas de carte car il faudra l'insérer
 essais_restants = 3     #c'est pour les trois essai d'identification possible
+
+differents_billets = {100, 50, 20, 10}  #liste des billets
