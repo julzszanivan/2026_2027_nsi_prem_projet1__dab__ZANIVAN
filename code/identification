@@ -14,7 +14,7 @@ differents_billets = {100, 50, 20, 10}  #liste des billets
 
 
 def inserer_carte(numero_carte): #permet de verifier la carte si elle est là et si elle est bonne ou non
-
+    global carte_inseree, essais_restants
     print("--- Insertion de la carte ---")
 
     if numero_carte in comptes_bancaires:  #Si la carte est reconnue
