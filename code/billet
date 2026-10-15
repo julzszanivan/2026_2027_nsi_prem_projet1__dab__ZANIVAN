@@ -1,0 +1,34 @@
+def billets():
+    billet_de_cent = 0
+    billet_de_cinquante = 0
+    billet_de_vingt = 0
+    billet_de_dix = 0
+    montant_donne=280
+    
+    while montant_donne >= 100:
+        billet_de_cent = billet_de_cent + 1
+        montant_donne= montant_donne - 100
+        
+    if billet_de_cent >= 1:
+        print(f"voici {billet_de_cent} billet de cent")
+
+    while montant_donne >= 50:
+         billet_de_cinquante = billet_de_cinquante + 1
+         montant_donne = montant_donne - 50
+    
+    if billet_de_cinquante >= 1:
+        print(f"voici {billet_de_cinquante} billet de cinquante")
+        
+    while montant_donne >= 20:
+         billet_de_vingt = billet_de_vingt + 1
+         montant_donne = montant_donne - 20
+        
+    if billet_de_vingt >= 1:
+        print(f"voici {billet_de_vingt} billet de vingt")
+        
+    while montant_donne >= 10:
+         billet_de_dix = billet_de_dix + 1
+         montant_donne = montant_donne - 10 
+    
+    if billet_de_dix >= 1:
+        print(f"voici {billet_de_dix} billet de dix")
