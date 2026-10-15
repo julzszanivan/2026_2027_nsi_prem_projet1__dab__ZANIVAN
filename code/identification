@@ -10,3 +10,23 @@ carte_inseree = None    #on part du principe qu'il n'y a pas de carte car il fau
 essais_restants = 3     #c'est pour les trois essai d'identification possible
 
 differents_billets = {100, 50, 20, 10}  #liste des billets
+
+
+
+def inserer_carte(numero_carte): #permet de verifier la carte si elle est là et si elle est bonne ou non
+
+    print("--- Insertion de la carte ---")
+
+    if numero_carte in comptes_bancaires:  #Si la carte est reconnue
+        print("Carte acceptée. Lecture de la puce en cours...")
+
+        carte_inseree = numero_carte
+        essais_restants = 3
+
+        return carte_inseree, essais_restants #on stocke le numéro de la carte dans une variable appelée carte_inseree
+                                              #on initialise le nombre d'essais restants à 3 pour le code PIN
+    else:
+        print("Erreur : Carte invalide ou non reconnue.") # carte non reconnue
+        return None, 0      #none pour dire qu'aucune carte valide n'a été identifiée
+                            #signifie qu'il reste zéro essai
+    
