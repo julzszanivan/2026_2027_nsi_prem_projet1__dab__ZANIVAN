@@ -30,3 +30,28 @@ def inserer_carte(numero_carte): #permet de verifier la carte si elle est là et
         return None, 0      #none pour dire qu'aucune carte valide n'a été identifiée
                             #signifie qu'il reste zéro essai
     
+
+
+def authentifier(code_saisi):  #permet de vérifier le code PIN saisi par l'utilisateur
+    """Vérifie le code PIN saisi"""  #rôle de la fonction
+
+    global carte_inseree, essais_restants  #permet de modifier les 2 variables en dehors de leurs fonctions d'origine
+
+    if not carte_inseree:  #si y a pas de carte
+        print("Aucune carte insérée.")  #affiche ce message
+        return False  #arrête la fonction et renvoie False pour indiquer que l'authentification a échoué
+
+    compte = comptes_bancaires[carte_inseree]  #récupère les informations du compte bancaire correspondant à la carte insérée donc les données du début
+
+    if code_saisi == compte["code"]:  #si C le bon code PIN
+        print("Code PIN correct. Authentification réussie.")
+        return True  #l'utilisateur est authentifié
+
+    else:  #quand  pas le bon code PIN
+        essais_restants -= 1  #-1 au nombre d'essais restants
+        print(f"Code PIN incorrect. Essais restants : {essais_restants}")  #montre a l'utilisateur le nombre d'essai restant
+        if essais_restants == 0:  #quand il a fait 3 echecs
+            print("Sécurité : Nombre d'essais maximal atteint. Veuillez récupérer votre carte.")  #demande a l'utilisateur de reprendre sa carte
+            carte_inseree = None  #plus de carte insérée
+
+        return False  #authentification a échoué
