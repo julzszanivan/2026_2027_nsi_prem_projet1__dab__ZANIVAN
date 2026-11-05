@@ -1,3 +1,6 @@
+from identification import*
+from retrait import*
+
 def billets():
     billet_de_cent = 0
     billet_de_cinquante = 0
@@ -32,3 +35,5 @@ def billets():
     
     if billet_de_dix >= 1:
         print(f"voici {billet_de_dix} billet de dix")
+
+    
