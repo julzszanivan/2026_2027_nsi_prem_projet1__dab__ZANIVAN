@@ -4,9 +4,9 @@
 # ==========================================
 
 comptes_bancaires = {
-    "123456": {"code": "4321", "solde": 1500, "plafond": 500, "plafond restant":500},
-    "654321": {"code": "0000", "solde": 45, "plafond": 200, "plafond restant": 200},
-    "987654": {"code": "9999", "solde": 12000, "plafond": 1500, "plafond restant": 1500}
+    "123456": {"code": "4321", "solde": 1500, "plafond": 500, "plafond restant":500, "historique": []},
+    "654321": {"code": "0000", "solde": 45, "plafond": 200, "plafond restant": 200, "historique": []},
+    "987654": {"code": "9999", "solde": 12000, "plafond": 1500, "plafond restant": 1500, "historique": []}
 }
 
 
@@ -142,6 +142,8 @@ def retrait():
 
             compte["plafond restant"] -= montant
 
+            compte["historique"].append(montant)
+
             billets(montant)
 
             break
@@ -194,9 +196,10 @@ def afficher_menu():
     print("1 - Consulter mon solde")
     print("2 - Retirer de l'argent")
     print("3 - Quitter")
+    print("4 - Consulter mon historique")
 
     try:
-        nb = int(input("Choisissez une commande entre 1 et 3 : "))
+        nb = int(input("Choisissez une commande entre 1 et 4 : "))
         return nb
 
     except ValueError:
@@ -213,6 +216,23 @@ def consulter():
 
     print(f"Votre solde est de {solde} €")
     print(f"Votre plafond restant est de {plafond} €")
+
+def afficher_historique():
+
+    compte = comptes_bancaires[carte_inseree]
+
+    historique = compte["historique"]
+
+    print("========================")
+    print("-- HISTORIQUE RETRAITS --")
+    print("========================")
+
+    if len(historique) == 0:
+        print("Aucun retrait effectué.")
+
+    else:
+        for montant in historique:
+            print(f"Retrait de {montant} €")
 
 
 def retirer_carte():
@@ -261,6 +281,9 @@ if carte_inseree is not None:
             elif nb == 3:
                 retirer_carte()
                 break
+
+            elif nb == 4:
+                afficher_historique()
 
             else:
                 print("Le nombre saisi est incorrect.")
