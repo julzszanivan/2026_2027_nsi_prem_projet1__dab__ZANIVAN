@@ -149,18 +149,37 @@ def consulter():
     print(f"le solde de votre compte est de {solde}€")
 
 
-while True:
-    nb = afficher_menu()
+numero_carte = input("Veuillez insérer votre carte : ")
 
-    if nb == 1:
-        consulter()
+inserer_carte(numero_carte)
 
-    elif nb == 2:
-        retrait()
+if carte_inseree is not None:
 
-    elif nb == 3:
-        print("Merci d'avoir utilisé notre distributeur.")
-        break
+    authentifie = False
 
-    else:
-        print("Le nombre saisi est incorrect.")
+    while essais_restants > 0 and not authentifie:
+        code = input("Veuillez saisir votre code PIN : ")
+
+        authentifie = authentifier(code)
+
+    # Le menu s'affiche uniquement si le code est correct
+    if authentifie:
+
+        while True:
+            nb = afficher_menu()
+
+            if nb == 1:
+                consulter()
+
+            elif nb == 2:
+                retrait()
+
+            elif nb == 3:
+                print("Merci d'avoir utilisé notre distributeur.")
+                break
+
+            else:
+                print("Le nombre saisi est incorrect.")
+
+else:
+    print("Veuillez utiliser une carte valide.")
