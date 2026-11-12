@@ -38,3 +38,37 @@ def afficher_menu():
                 break
 
     return nb
+
+
+
+
+def verifier_identite():
+
+    global carte_inseree
+    print("-- VERIFICATION DE SECURITE --")
+    code = input("Veuillez confirmer votre code PIN : ")
+    if carte_inseree is None:
+        return False
+
+    compte = comptes_bancaires[carte_inseree]
+    if code == compte["code"]:
+        print("Identité confirmée.")
+        print("Vous pouvez continuer.")
+        return True
+    else:
+        print("Code PIN incorrect.")
+        print("Votre carte est avalée.")
+        print("Votre carte est conservée en sécurité à la banque.")
+        print("Un message est envoyé à la banque.")
+        carte_inseree = None
+        return False
+
+
+def avaler_carte():
+    global carte_inseree
+    print("\nAucune réponse détectée.")
+    print("Votre carte est avalée.")
+    print("Votre carte est conservée en sécurité à la banque.")
+    print("Un message est envoyé à la banque.")
+
+    carte_inseree = None
