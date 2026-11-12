@@ -47,3 +47,19 @@ plafond =  500
 add_an_account()
 
 
+
+def consulter():
+    solde = comptes_bancaires[carte_inseree]["solde"]
+    print(f"le solde de votre compte est de {solde}€")
+
+def debut():
+    rep= int(input("avez vous un compte créé ? ( 0 : non ; 1 : oui )")
+    if rep == 0 :
+        add_an_account()
+    elif rep == 1 :
+        numero_carte = input("Veuillez insérer votre carte : ")
+    else :
+        print ( "reponse incorrecte")
+
+
+debut()

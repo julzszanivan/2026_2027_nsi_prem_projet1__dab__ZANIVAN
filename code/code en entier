@@ -1,346 +1,157 @@
-
-# ==========================================
-# BASE DE DONNEES DES COMPTES BANCAIRES
-# ==========================================
-
+# Base de données des comptes bancaires
 comptes_bancaires = {
-    "123456": {"code": "4321", "solde": 1500, "plafond": 500, "plafond restant":500, "historique": []},
-    "654321": {"code": "0000", "solde": 45, "plafond": 200, "plafond restant": 200, "historique": []},
-    "987654": {"code": "9999", "solde": 12000, "plafond": 1500, "plafond restant": 1500, "historique": []}
+    "123456": {"code": "4321", "solde": 1500, "plafond": 500},
+    "654321": {"code": "0000", "solde": 45, "plafond": 200},
+    "987654": {"code": "9999", "solde": 12000, "plafond": 1500}
 }
 
+# État de la session en cours
+carte_inseree = None    #on part du principe qu'il n'y a pas de carte car il faudra l'insérer
+essais_restants = 3     #c'est pour les trois essai d'identification possible
 
-# ==========================================
-# ETAT DE LA SESSION
-# ==========================================
-
-carte_inseree = None
-essais_restants = 3
-
-differents_billets = [100, 50, 20, 10]
+differents_billets = {100, 50, 20, 10}  #liste des billets
 
 
-# ==========================================
-# FONCTIONS DE LA CARTE BANCAIRE
-# ==========================================
 
-def inserer_carte(numero_carte):
+def inserer_carte(numero_carte): #permet de verifier la carte si elle est là et si elle est bonne ou non
     global carte_inseree, essais_restants
-
     print("--- Insertion de la carte ---")
 
-    if numero_carte in comptes_bancaires:
+    if numero_carte in comptes_bancaires:  #Si la carte est reconnue
         print("Carte acceptée. Lecture de la puce en cours...")
 
         carte_inseree = numero_carte
         essais_restants = 3
 
-        return carte_inseree, essais_restants
-
+        return carte_inseree, essais_restants #on stocke le numéro de la carte dans une variable appelée carte_inseree
+                                              #on initialise le nombre d'essais restants à 3 pour le code PIN
     else:
-        print("Erreur : Carte invalide ou non reconnue.")
-        return None, 0
+        print("Erreur : Carte invalide ou non reconnue.") # carte non reconnue
+        return None, 0      #none pour dire qu'aucune carte valide n'a été identifiée
+                            #signifie qu'il reste zéro essai
+        
+def authentifier(code_saisi):  #permet de vérifier le code PIN saisi par l'utilisateur
+    """Vérifie le code PIN saisi"""  #rôle de la fonction
 
+    global carte_inseree, essais_restants  #permet de modifier les 2 variables en dehors de leurs fonctions d'origine
 
-def authentifier(code_saisi):
-    """Vérifie le code PIN saisi"""
+    if not carte_inseree:  #si y a pas de carte
+        print("Aucune carte insérée.")  #affiche ce message
+        return False  #arrête la fonction et renvoie False pour indiquer que l'authentification a échoué
 
-    global carte_inseree, essais_restants
+    compte = comptes_bancaires[carte_inseree]  #récupère les informations du compte bancaire correspondant à la carte insérée donc les données du début
 
-    if not carte_inseree:
-        print("Aucune carte insérée.")
-        return False
-
-    compte = comptes_bancaires[carte_inseree]
-
-    if code_saisi == compte["code"]:
+    if code_saisi == compte["code"]:  #si C le bon code PIN
         print("Code PIN correct. Authentification réussie.")
-        return True
+        return True  #l'utilisateur est authentifié
 
-    else:
-        essais_restants -= 1
+    else:  #quand  pas le bon code PIN
+        essais_restants -= 1  #-1 au nombre d'essais restants
+        print(f"Code PIN incorrect. Essais restants : {essais_restants}")  #montre a l'utilisateur le nombre d'essai restant
+        if essais_restants == 0:  #quand il a fait 3 echecs
+            print("Sécurité : Nombre d'essais maximal atteint. Veuillez récupérer votre carte.")  #demande a l'utilisateur de reprendre sa carte
+            carte_inseree = None  #plus de carte insérée
 
-        print(f"Code PIN incorrect. Essais restants : {essais_restants}")
+        return False  #authentification a échoué
 
-        if essais_restants == 0:
-            print("Sécurité : Nombre d'essais maximal atteint.")
-            print("Carte avalée, veuillez voir un de nos agents pour la recupérer.")
-            carte_inseree = None
-
-        return False
-
-def verifier_identite():
-
-    global carte_inseree
-    print("-- VERIFICATION DE SECURITE --")
-    code = input("Veuillez confirmer votre code PIN : ")
-    if carte_inseree is None:
-        return False
-
-    compte = comptes_bancaires[carte_inseree]
-    if code == compte["code"]:
-        print("Identité confirmée.")
-        print("Vous pouvez continuer.")
-        return True
-    else:
-        print("Code PIN incorrect.")
-        print("Votre carte est avalée.")
-        print("Votre carte est conservée en sécurité à la banque.")
-        print("Un message est envoyé à la banque.")
-        carte_inseree = None
-        return False
-
-
-def avaler_carte():
-    global carte_inseree
-    print("\nAucune réponse détectée.")
-    print("Votre carte est avalée.")
-    print("Votre carte est conservée en sécurité à la banque.")
-    print("Un message est envoyé à la banque.")
-
-    carte_inseree = None
-# ==========================================
-# FONCTIONS DU RETRAIT
-# ==========================================
-
-def afficher_menu_retrait():
-    print("===========")
-    print("-- RETRAIT --")
-    print("===========")
-
-
-def demander_montant():
-    while True:
-        try:
-            montant = int(input("Veuillez entrer un montant à retirer : "))
-            return montant
-
-        except ValueError:
-            print("Erreur : veuillez entrer un nombre entier.")
-
-
-def verifier_montant(montant, plafond, solde):
-
-    if montant <= 0:
-        print("Erreur : le montant doit être supérieur à 0.")
-        return False
-
-    elif montant % 10 != 0:
-        print("Erreur : le montant doit être divisible par 10.")
-        return False
-
-    elif montant > plafond:
-        print(f"Erreur : votre plafond restant est de {plafond} €.")
-        return False
-
-    elif montant > solde:
-        print("Erreur : solde insuffisant.")
-        return False
-
-    return True
-
-
-def effectuer_retrait(solde, montant):
-    nouveau_solde = solde - montant
-
-    print("Action réussie ! Votre retrait a été effectué.")
-    print(f"Montant retiré : {montant} €")
-    print(f"Votre nouveau solde est de : {nouveau_solde} €")
-
-    return nouveau_solde
+#quand le client veut retirer de l'argent, il arrive ici'
 
 
 def retrait():
-
-    compte = comptes_bancaires[carte_inseree]
-
-    afficher_menu_retrait()
-
-    while True:
-
-        montant = demander_montant()
-
-        plafond = compte["plafond restant"]
-        solde = compte["solde"]
-
-        if verifier_montant(montant, plafond, solde):
-
-            nouveau_solde = effectuer_retrait(solde, montant)
-
-            compte["solde"] = nouveau_solde
-
-            compte["plafond restant"] -= montant
-
-            compte["historique"].append(montant)
-
-            billets(montant)
-
-            break
-
-
-# ==========================================
-# FONCTION DU DEPOT
-# ==========================================
-
-def depot():
-
-    compte = comptes_bancaires[carte_inseree]
-
-    print("===========")
-    print("-- DEPOT --")
-    print("===========")
-
-    while True:
+    
+    solde = new_func()
+    plafond = comptes_bancaires[carte_inseree]["plafond"]
+        
+        print ("===========")
+    print ("--Retrait--")
+    print ("===========")
+    
+    i = 0
+    while i==0:
         try:
-            montant = int(input("Combien souhaitez-vous déposer ? "))
-
-            if montant <= 0:
-                print("Le montant doit être supérieur à 0.")
-
-            elif montant % 10 != 0:
-                print("Le montant doit être divisible par 10.")
-
+            montant_donne = float(input("Veuillez entrer un montant à retirer:"))
+            
+            if montant_donne%10 != 0:
+                print ("Veuillez entrer une valeur divisible par 10.")
+            
+            elif montant_donne>plafond:
+                print ("Vous avez dépassé votre plafond, veuillez remettre une valeur inférieur à celui-ci.")
+            
+            elif montant_donne>solde:
+                print ("Vous n'avez pas assez d'argent pour retirer cette somme, veuillez remettre une valeur inférieur a votre solde.")
+            
+            elif montant_donne<=0:
+                print ("Veuillez entrer une valeur supérieur à 0")
+            
             else:
-                compte["solde"] += montant
+                comptes_bancaires[carte_inseree]["solde"] -= montant_donne
 
-                compte["historique"].append(-montant)
+                print("Action réussie, cette somme a été débitée de votre compte.")
+                print(f"Votre solde est maintenant de : {comptes_bancaires[carte_inseree]['solde']} €")
 
-                print("Dépôt effectué avec succès !")
-                print(f"Montant déposé : {montant} €")
-                print(f"Nouveau solde : {compte['solde']} €")
+                billets(montant_donne)
 
-                break
-
+                i = 1
+    
         except ValueError:
-            print("Veuillez entrer un nombre entier.")
+            print("Erreur : veuillez entrer un nombre valide.")
 
-
-# ==========================================
-# FONCTIONS DE DISTRIBUTION DES BILLETS
-# ==========================================
-
-def calculer_billets(montant, valeur_billet):
-
-    nombre_billets = montant // valeur_billet
-    reste = montant % valeur_billet
-
-    return nombre_billets, reste
-
-
-def afficher_billets(nombre, valeur):
-
-    if nombre > 0:
-        print(f"Voici {nombre} billet(s) de {valeur} €.")
+def new_func():
+    solde = comptes_bancaires[carte_inseree]["solde"]
+    return solde
+                          
 
 
 def billets(montant_donne):
+    billet_de_cent = 0
+    billet_de_cinquante = 0
+    billet_de_vingt = 0
+    billet_de_dix = 0
+    
+    while montant_donne >= 100:
+        billet_de_cent = billet_de_cent + 1
+        montant_donne= montant_donne - 100
+        
+    if billet_de_cent >= 1:
+        print(f"voici {billet_de_cent} billet de cent")
 
-    print("===========")
-    print("-- BILLETS --")
-    print("===========")
+    while montant_donne >= 50:
+         billet_de_cinquante = billet_de_cinquante + 1
+         montant_donne = montant_donne - 50
+    
+    if billet_de_cinquante >= 1:
+        print(f"voici {billet_de_cinquante} billet de cinquante")
+        
+    while montant_donne >= 20:
+         
+         billet_de_vingt = billet_de_vingt + 1
+         montant_donne = montant_donne - 20
+        
+    if billet_de_vingt >= 1:
+        print(f"voici {billet_de_vingt} billet de vingt")
+        
+    while montant_donne >= 10:
+         billet_de_dix = billet_de_dix + 1
+         montant_donne = montant_donne - 10 
+    
+    if billet_de_dix >= 1:
+        print(f"voici {billet_de_dix} billet de dix")
 
-    for valeur in differents_billets:
-
-        nombre, reste = calculer_billets(montant_donne, valeur)
-
-        afficher_billets(nombre, valeur)
-
-        montant_donne = reste
-
-    if montant_donne > 0:
-        print("Impossible de distribuer la totalité du montant.")
-
-# ==========================================
-# FONCTIONS DU MENU PRINCIPAL
-# ==========================================
+#quand le client entre son code de carte il est dirigé sur ce menu"
 
 def afficher_menu():
-
-    print("\n===========")
-    print("-- MENU --")
-    print("===========")
-    print("1 - Consulter mon solde")
-    print("2 - Retirer de l'argent")
-    print("3 - Quitter")
-    print("4 - Consulter mon historique")
-    print("5 - Déposer de l'argent")
-
-    debut = time.time()
-
-    try:
-        nb = int(input("Choisissez une commande entre 1 et 5 : "))
-
-    except ValueError:
-        print("Veuillez entrer un nombre valide.")
-        return 0
-
-    duree = time.time() - debut
-    # Quitter normalement
-    if nb == 3:
-        return 3
-    # Vérifier le délai de saisie
-    if duree > 15:
-
-        print("\nAucune activité détectée.")
-        print("Vérification de votre identité nécessaire.")
-        
-        if verifier_identite():
-            return nb
-        else:
-            return -1
-    return nb
+    print("menu")
+    print("commandes")
+    print("1-consulter mon solde")
+    print("2-retirer de l'argent")
+    print("3-quitter")
+    nb = int(input("choisissez une commande entre 1 et 3: "))
+    return(nb)
 
 
 
-def consulter():
-
-    compte = comptes_bancaires[carte_inseree]
-
-    solde = compte["solde"]
-    plafond = compte["plafond restant"]
-
-    print(f"Votre solde est de {solde} €")
-    print(f"Votre plafond restant est de {plafond} €")
-
-def afficher_historique():
-
-    compte = comptes_bancaires[carte_inseree]
-
-    historique = compte["historique"]
-
-    print("========================")
-    print("-- HISTORIQUE DES OPERATIONS --")
-    print("========================")
-
-    if len(historique) == 0:
-        print("Aucune opération effectuée.")
-
-    else:
-        for montant in historique:
-
-            if montant > 0:
-                print(f"Retrait de {montant} €")
-
-            else:
-                print(f"Dépôt de {-montant} €")
 
 
-def retirer_carte():
-
-    global carte_inseree
-
-    print("Veuillez récupérer votre carte.")
-
-    carte_inseree = None
-
-    print("Merci de votre visite !")
-
-
-# ==========================================
-# PROGRAMME PRINCIPAL
-# ==========================================
-
-numero_carte = input("Veuillez insérer votre carte : ")
 
 inserer_carte(numero_carte)
 
@@ -349,46 +160,28 @@ if carte_inseree is not None:
     authentifie = False
 
     while essais_restants > 0 and not authentifie:
-
         code = input("Veuillez saisir votre code PIN : ")
 
         authentifie = authentifier(code)
 
+    # Le menu s'affiche uniquement si le code est correct
     if authentifie:
 
         while True:
-
             nb = afficher_menu()
 
-            # Carte avalée
-            if nb == -1:
-                retirer_carte()
-                break
-
-            # Consulter le solde
-            elif nb == 1:
+            if nb == 1:
                 consulter()
 
-            # Retirer de l'argent
             elif nb == 2:
                 retrait()
 
-            # Quitter
             elif nb == 3:
-                retirer_carte()
+                print("Merci d'avoir utilisé notre distributeur.")
                 break
-
-            # Historique
-            elif nb == 4:
-                afficher_historique()
-
-            # Dépôt
-            elif nb == 5:
-                depot()
 
             else:
                 print("Le nombre saisi est incorrect.")
-    else:
-        print("Authentification impossible.")
+
 else:
     print("Veuillez utiliser une carte valide.")
