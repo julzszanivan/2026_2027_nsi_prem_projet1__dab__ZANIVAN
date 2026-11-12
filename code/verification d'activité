@@ -1,0 +1,28 @@
+import time
+
+for i in range(3, -1, -1):
+    time.sleep(15)
+    print("Aucune activité détectée.")
+    print("Êtes-vous toujours là ? Voulez-vous continuer ? (oui/non)")
+
+    debut = time.time()
+
+    reponse = input("Votre réponse : ").lower()
+
+    duree = time.time() - debut
+
+    if duree > 5:
+        print("Aucune réponse détectée.")
+        print("Carte avalée.")
+        print ("")
+        print("envoie d'un message.")
+        break
+
+    elif reponse in ["oui", "o"]:
+        print("Retour au menu principal.")
+        afficher_menu()
+        break
+
+    else:
+        print("Veuillez reprendre votre carte.")
+        break
