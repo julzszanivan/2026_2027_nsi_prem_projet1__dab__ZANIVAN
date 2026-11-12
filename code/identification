@@ -40,7 +40,7 @@ def authentifier(code_saisi):  #permet de vérifier le code PIN saisi par l'util
         essais_restants -= 1  #-1 au nombre d'essais restants
         print(f"Code PIN incorrect. Essais restants : {essais_restants}")  #montre a l'utilisateur le nombre d'essai restant
         if essais_restants == 0:  #quand il a fait 3 echecs
-            print("Sécurité : Nombre d'essais maximal atteint. Veuillez récupérer votre carte.")  #demande a l'utilisateur de reprendre sa carte
+            print("Sécurité : Nombre d'essais maximal atteint. Carte avalée, veuillez voir un de nos agents pour la recupérer.")  #demande a l'utilisateur de reprendre sa carte
             carte_inseree = None  #plus de carte insérée
 
         return False  #authentification a échoué
