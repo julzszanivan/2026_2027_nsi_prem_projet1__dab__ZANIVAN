@@ -64,7 +64,7 @@ def authentifier(code_saisi):
 
         if essais_restants == 0:
             print("Sécurité : Nombre d'essais maximal atteint.")
-            print("Veuillez récupérer votre carte.")
+            print("Carte avalée, veuillez voir un de nos agents pour la recupérer.")
             carte_inseree = None
 
         return False
@@ -150,6 +150,43 @@ def retrait():
 
 
 # ==========================================
+# FONCTION DU DEPOT
+# ==========================================
+
+def depot():
+
+    compte = comptes_bancaires[carte_inseree]
+
+    print("===========")
+    print("-- DEPOT --")
+    print("===========")
+
+    while True:
+        try:
+            montant = int(input("Combien souhaitez-vous déposer ? "))
+
+            if montant <= 0:
+                print("Le montant doit être supérieur à 0.")
+
+            elif montant % 10 != 0:
+                print("Le montant doit être divisible par 10.")
+
+            else:
+                compte["solde"] += montant
+
+                compte["historique"].append(-montant)
+
+                print("Dépôt effectué avec succès !")
+                print(f"Montant déposé : {montant} €")
+                print(f"Nouveau solde : {compte['solde']} €")
+
+                break
+
+        except ValueError:
+            print("Veuillez entrer un nombre entier.")
+
+
+# ==========================================
 # FONCTIONS DE DISTRIBUTION DES BILLETS
 # ==========================================
 
@@ -197,9 +234,10 @@ def afficher_menu():
     print("2 - Retirer de l'argent")
     print("3 - Quitter")
     print("4 - Consulter mon historique")
+    print("5 - Déposer de l'argent")
 
     try:
-        nb = int(input("Choisissez une commande entre 1 et 4 : "))
+        nb = int(input("Choisissez une commande entre 1 et 5 : "))
         return nb
 
     except ValueError:
@@ -224,15 +262,20 @@ def afficher_historique():
     historique = compte["historique"]
 
     print("========================")
-    print("-- HISTORIQUE RETRAITS --")
+    print("-- HISTORIQUE DES OPERATIONS --")
     print("========================")
 
     if len(historique) == 0:
-        print("Aucun retrait effectué.")
+        print("Aucune opération effectuée.")
 
     else:
         for montant in historique:
-            print(f"Retrait de {montant} €")
+
+            if montant > 0:
+                print(f"Retrait de {montant} €")
+
+            else:
+                print(f"Dépôt de {-montant} €")
 
 
 def retirer_carte():
@@ -284,6 +327,9 @@ if carte_inseree is not None:
 
             elif nb == 4:
                 afficher_historique()
+
+            elif nb == 5:
+                depot()
 
             else:
                 print("Le nombre saisi est incorrect.")
