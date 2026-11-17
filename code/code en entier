@@ -1,4 +1,7 @@
 # Base de données des comptes bancaires
+import random
+
+
 comptes_bancaires = {
     "123456": {"code": "4321", "solde": 1500, "plafond": 500},
     "654321": {"code": "0000", "solde": 45, "plafond": 200},
@@ -62,7 +65,7 @@ def retrait():
     solde = new_func()
     plafond = comptes_bancaires[carte_inseree]["plafond"]
         
-        print ("===========")
+    print ("===========")
     print ("--Retrait--")
     print ("===========")
     
@@ -148,12 +151,72 @@ def afficher_menu():
     nb = int(input("choisissez une commande entre 1 et 3: "))
     return(nb)
 
+def consulter():
+    solde = comptes_bancaires[carte_inseree]["solde"]
+    print(f"le solde de votre compte est de {solde}€")
+
+
+def add_an_account(numero, cod, sold, plafond):
+    print("creation du compte en cours ...")
+
+    comptes_bancaires[numero] = {
+        "code": cod,
+        "solde": sold,
+        "plafond": plafond
+    }
+
+    print(f"-----votre compte a été créé : ID : {numero}-----")
+    print(f"-----code PIN : {cod}-----")
+    print(f"-----solde: {sold} € -----")
+    print(f"-----plafond : {plafond} € -----")
+
+
+def compte():
+    numero_compte = str(random.randint(100000, 999999))
+    while numero_compte in comptes_bancaires:
+        numero_compte = str(random.randint(100000, 999999))
+    return numero_compte
+
+
+def code():
+    code = str(random.randint(1000, 9999))
+    return code 
+
+def solde():
+    solde = int(input("Combien d'argent voulez-vous placer sur votre compte ? (entre 100 et 9 999 €) : "))
+
+    while solde < 100 or solde > 9999:
+        solde = int(input("Montant invalide. Entrez un montant entre 100 et 9 999 € : "))
+
+    return solde
+
+
+def debut():
+    rep = int(input("avez vous un compte créé ? (0 : non ; 1 : oui) : "))
+
+    if rep == 0:
+        numero = compte()
+        cod = code()
+        sold = solde()
+        plafond = 500
+
+        add_an_account(numero, cod, sold, plafond)
+        inserer_carte(numero)
+
+    elif rep == 1:
+        numero_carte = input("Veuillez insérer votre numéro de carte : ")
+        inserer_carte(numero_carte)
+
+    else:
+        print("reponse incorrecte")
 
 
 
 
+debut()
 
-inserer_carte(numero_carte)
+
+
 
 if carte_inseree is not None:
 
