@@ -1,4 +1,4 @@
-
+import time
 
 # ==========================================
 # BASE DE DONNEES DES COMPTES BANCAIRES
@@ -70,6 +70,7 @@ def authentifier(code_saisi):
 
         return False
 
+
 def verifier_identite():
 
     global carte_inseree
@@ -100,6 +101,8 @@ def avaler_carte():
     print("Un message est envoyé à la banque.")
 
     carte_inseree = None
+
+
 # ==========================================
 # FONCTIONS DU RETRAIT
 # ==========================================
@@ -255,9 +258,11 @@ def billets(montant_donne):
 # FONCTIONS DU MENU PRINCIPAL
 # ==========================================
 
+
+
+
 def afficher_menu():
 
-    print("===========")
     print("\n===========")
     print("-- MENU --")
     print("===========")
@@ -271,7 +276,6 @@ def afficher_menu():
 
     try:
         nb = int(input("Choisissez une commande entre 1 et 5 : "))
-        return nb
 
     except ValueError:
         print("Veuillez entrer un nombre valide.")
@@ -292,8 +296,6 @@ def afficher_menu():
         else:
             return -1
     return nb
-
-
 
 def consulter():
 
@@ -357,32 +359,25 @@ if carte_inseree is not None:
 
         authentifie = authentifier(code)
 
-    # Le menu s'affiche uniquement si le code est correct
-
     if authentifie:
 
         while True:
 
             nb = afficher_menu()
-            
             # Carte avalée
             if nb == -1:
                 retirer_carte()
                 break
-
             # Consulter le solde
             elif nb == 1:
                 consulter()
-
             # Retirer de l'argent
             elif nb == 2:
                 retrait()
-
             # Quitter
             elif nb == 3:
                 retirer_carte()
                 break
-
             # Historique
             elif nb == 4:
                 afficher_historique()
@@ -393,7 +388,6 @@ if carte_inseree is not None:
 
             else:
                 print("Le nombre saisi est incorrect.")
-
     else:
         print("Authentification impossible.")
 else:
