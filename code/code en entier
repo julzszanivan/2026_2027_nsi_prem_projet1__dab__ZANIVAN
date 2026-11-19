@@ -1,5 +1,7 @@
 # Base de données des comptes bancaires
+
 import random
+
 
 
 comptes_bancaires = {
