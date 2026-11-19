@@ -1,13 +1,7 @@
 
 import time
 
-# ==========================================
-# BASE DE DONNEES DES COMPTES BANCAIRES
-# ==========================================
 
-# Un dictionnaire permet de stocker plusieurs informations sous forme de clés et de valeurs.
-# Chaque numéro de carte est associé à un compte bancaire.
-# Chaque compte possède un code PIN, un solde, un plafond et un historique.
 
 comptes_bancaires = {
     "123456": {
@@ -34,39 +28,20 @@ comptes_bancaires = {
 }
 
 
-# ==========================================
-# ETAT DE LA SESSION
-# ==========================================
-
-# None signifie qu'aucune carte n'est insérée.
 carte_inseree = None
 
-# Cette variable limite le nombre de tentatives de code PIN à 3.
+
 essais_restants = 3
 
-# Cette liste contient les valeurs des billets disponibles.
 differents_billets = [100, 50, 20, 10]
 
 
-# ==========================================
-# FONCTIONS D'AFFICHAGE ET D'ATTENTE
-# ==========================================
-
-# def permet de créer une fonction réutilisable.
 def afficher(message, attente=1):
     print(message)
-
-    # time.sleep() met le programme en pause pendant un nombre de secondes.
     time.sleep(attente)
 
-
 def chargement(message, duree=2):
-
-    # end="" évite de passer à la ligne.
-    # flush=True permet d'afficher immédiatement le texte.
     print(message, end="", flush=True)
-
-    # La boucle for répète les instructions 3 fois.
     for i in range(3):
         time.sleep(duree / 3)
         print(".", end="", flush=True)
@@ -74,30 +49,15 @@ def chargement(message, duree=2):
     print()
 
 
-# ==========================================
-# FONCTIONS DE LA CARTE BANCAIRE
-# ==========================================
-
 def inserer_carte(numero_carte):
-
-    # global permet de modifier des variables créées en dehors de la fonction.
     global carte_inseree, essais_restants
-
     print("--- Insertion de la carte ---")
-
-    # On vérifie si le numéro de carte existe dans le dictionnaire.
     if numero_carte in comptes_bancaires:
-
         afficher("Carte acceptée.", 1)
         chargement("Lecture de la puce", 2)
-
-        # On enregistre le numéro de la carte insérée.
         carte_inseree = numero_carte
         essais_restants = 3
-
         afficher("Carte reconnue !", 1)
-
-        # return renvoie les valeurs à l'endroit où la fonction est appelée.
         return carte_inseree, essais_restants
 
     else:
@@ -106,32 +66,19 @@ def inserer_carte(numero_carte):
 
 
 def authentifier(code_saisi):
-
     global carte_inseree, essais_restants
-
-    # Si aucune carte n'est insérée, l'authentification est impossible.
     if not carte_inseree:
         afficher("Aucune carte insérée.")
         return False
-
-    # On récupère les informations du compte correspondant à la carte.
     compte = comptes_bancaires[carte_inseree]
-
     chargement("Vérification du code PIN", 2)
-
-    # On compare le code saisi avec le code enregistré.
     if code_saisi == compte["code"]:
         afficher("Code PIN correct. Authentification réussie.")
         return True
 
     else:
-        # -= permet de soustraire une valeur à une variable.
-        # On retire donc une tentative après un code incorrect.
         essais_restants -= 1
-
         afficher(f"Code PIN incorrect. Essais restants : {essais_restants}")
-
-        # Si les 3 tentatives sont utilisées, la carte est avalée.
         if essais_restants == 0:
             afficher("Sécurité : Nombre d'essais maximal atteint.")
             afficher("Carte avalée, veuillez voir un de nos agents.")
@@ -141,18 +88,13 @@ def authentifier(code_saisi):
 
 
 def verifier_identite():
-
     global carte_inseree
-
     print("-- VERIFICATION DE SECURITE --")
-
     if carte_inseree is None:
         return False
 
     code = input("Veuillez confirmer votre code PIN : ")
-
     chargement("Vérification de votre identité", 2)
-
     compte = comptes_bancaires[carte_inseree]
 
     if code == compte["code"]:
