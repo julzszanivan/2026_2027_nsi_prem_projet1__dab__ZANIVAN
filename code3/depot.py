@@ -5,6 +5,10 @@ from code3.retrait_billets import*
 # ==========================================
 
 def depot():
+    """
+    permet a l'utilisateur de deposer de l'argent en especes pour augmenter son solde sur sa carte. Chargement permet d'attendre avant d'envoyer le prochain message pour ne pas tout afficher d'un coup et pour vérifier l'insertion des billets dans le distributeur.
+    il est appele par le menu lorsque tu tape 5
+    """
 
     compte = comptes_bancaires[carte_inseree]
 
