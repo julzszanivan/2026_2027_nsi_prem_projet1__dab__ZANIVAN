@@ -8,6 +8,7 @@ def add_an_account(numero, cod, sold, plafond):
     """
     permet de rajouter un compte avec un code pin, un solde, un plafond. Lorsqu'il fera une action il y aura ainsi un plafond restant et un historique
     il prend en entrée: numero comme le numero de la carte, cod comme le code pin qui permettra de verifier son identité, sold comme le solde du compte, plafond comme le max d'argent qu'il puisse retirer durant la session
+    il est appelé par la fonction debut
     """
 
     print("Création du compte en cours...")
