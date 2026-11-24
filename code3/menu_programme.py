@@ -5,6 +5,12 @@ from code3.compte_bancaire_identification import*
 # ==========================================
 
 def afficher_menu():
+    """
+    permet de demander a l'utilisateur ce qu'il veut faire entre consulter son solde, retirer de l'argent, consulter son historique, déposer de l'argent et quitter la session. On demande donc a l'utilisateur de choisir un nombre entre 1 et 5, si celui ci repond quelque chose d'autre le programme lui demande de remettre un nombre valide
+    elle appelle la fonction retirer_carte, depot, consulter, afficher_historique
+    elle est appelee par la
+
+    """
 
     print("\n===========")
     print("-- MENU --")
@@ -45,7 +51,10 @@ def afficher_menu():
 
 
 def consulter():
-
+    """
+    permet a l'utilisateur de consulter son solde et le plafond qui lui reste 
+    elle est appelee par la fonction afficher_menu
+    """
     compte = comptes_bancaires[carte_inseree]
 
     chargement("Récupération des informations du compte", 2)
@@ -58,6 +67,10 @@ def consulter():
 
 
 def afficher_historique():
+    """
+    permet a l'utilisateur de regarder son historique et si celui-ci n'a rien fait avant, le programme affiche aucune opération effectuée
+
+    """
 
     compte = comptes_bancaires[carte_inseree]
     historique = compte["historique"]
