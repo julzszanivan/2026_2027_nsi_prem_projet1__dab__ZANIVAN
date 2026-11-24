@@ -152,5 +152,3 @@ def avaler_carte():
     afficher("Un message est envoyé à la banque.")
 
     carte_inseree = None
-
-lfld
