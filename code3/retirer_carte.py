@@ -6,6 +6,9 @@ from code3.menu_programme import*
 # ==========================================
 
 def retirer_carte():
+    """
+    permet de finir la session de l'utilisateur en lui demandant de recuperer sa carte
+    """
 
     global carte_inseree
 

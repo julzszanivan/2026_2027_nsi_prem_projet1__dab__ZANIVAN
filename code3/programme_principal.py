@@ -5,6 +5,9 @@ from code3.creer_un_compte import*
 # ==========================================
 
 def debut():
+    """
+    permet a l'utilisateur de choisir entre se creer un compte si il n'en a pas ou de rentrer son numerop de carte si il en a un. l'utiliateur choisi entre le nombre 1 et 0. si il a un compte il doit ecrire son code pin. si il n'a pas de compte la fonction add_an_account est appelee
+    """
 
     print("\n================================")
     print("     DISTRIBUTEUR BANCAIRE")
