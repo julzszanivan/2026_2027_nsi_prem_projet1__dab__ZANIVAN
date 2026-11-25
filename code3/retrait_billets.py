@@ -5,12 +5,19 @@ from code3.retirer_carte import*
 # ==========================================
 
 def afficher_menu_retrait():
+    """
+    permet d'afficher retrait pour que l'utilisateur sache ou il est
+    """
     print("===========")
     print("-- RETRAIT --")
     print("===========")
 
 
 def demander_montant():
+    """
+    permet de demander a l'utilisateur combien il veut retirer et que ce nombre est bien un nombre entier
+    cette fonction est appelee par verifier_montant
+    """
 
     while True:
         try:
@@ -24,6 +31,10 @@ def demander_montant():
 
 
 def verifier_montant(montant, plafond, solde):
+    """
+    premet de verifier que toutes les conditions du retrait sont remplies: un nombre superieur a 0, divisible par 10, et inferieur ou egale au plafond et au solde
+    elle appelle la fonction demander_montant
+    """
 
     if montant <= 0:
         afficher("Erreur : le montant doit être supérieur à 0.")
@@ -45,6 +56,9 @@ def verifier_montant(montant, plafond, solde):
 
 
 def effectuer_retrait(solde, montant):
+    """
+    permet de donner le montant a l'utilisateur et de monter son nouveau solde et ce qu'il a retire
+    """
 
     chargement("Traitement de votre demande", 2)
     chargement("Préparation des billets", 2)
@@ -59,6 +73,9 @@ def effectuer_retrait(solde, montant):
 
 
 def retrait():
+    """
+    permet de changer dans le dictionnaire le solde, le plafond restant et l'historique
+    """
 
     compte = comptes_bancaires[carte_inseree]
 
@@ -89,6 +106,10 @@ def retrait():
 # ==========================================
 
 def calculer_billets(montant, valeur_billet):
+    """
+    permet de calculer le nombre de billets d'une valeur donnee ainsi que le montant restant à distribuer
+    elle est appelee par la fonction afficher_billets
+    """
 
     nombre_billets = montant // valeur_billet
     reste = montant % valeur_billet
@@ -97,13 +118,19 @@ def calculer_billets(montant, valeur_billet):
 
 
 def afficher_billets(nombre, valeur):
-
+    """
+    montre a l'utilisateur quel(s) billet(s) il recevra
+    elle appelle la fonction calculer_billets
+    """
     if nombre > 0:
         time.sleep(0.7)
         print(f"Voici {nombre} billet(s) de {valeur} €.")
 
 
 def billets(montant_donne):
+    """
+    permet de calculer les billets à distribuer à l'utilisateur selon le montant demande
+    """
 
     print("===========")
     print("-- BILLETS --")
