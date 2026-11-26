@@ -28,12 +28,9 @@ def afficher_menu():
         nb = int(input("Choisissez une commande entre 1 et 5 : "))
 
     except ValueError:
-        afficher("Veuillez entrer un nombre valide.")
-        return 0
+        nb = 0
 
     duree = time.time() - debut_temps
-
-
     if duree > 15:
 
         print("\nAucune activité détectée.")
@@ -45,7 +42,15 @@ def afficher_menu():
         else:
             return -1
 
+    if nb == 0:
+        print("Veuillez entrer un nombre valide.")
+        return 0
+
+    if nb == 3:
+        return 3
+
     return nb
+
 
 
 def consulter():
