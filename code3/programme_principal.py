@@ -77,7 +77,6 @@ while True:
         nb = afficher_menu()
 
         if nb == -1:
-            retirer_carte()
             break
 
         elif nb == 1:

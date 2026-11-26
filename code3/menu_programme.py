@@ -33,8 +33,6 @@ def afficher_menu():
 
     duree = time.time() - debut_temps
 
-    if nb == 3:
-        return 3
 
     if duree > 15:
 
