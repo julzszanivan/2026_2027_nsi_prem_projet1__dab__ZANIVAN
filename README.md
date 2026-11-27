@@ -10,6 +10,8 @@ la repartition des tache: Théo: compte_bancaire_identification + programme_prin
                          jule : menu et creer un compte
 C'est a titre indicatif, on avait en gros cette répartition au début mais on a aussi travaille sur les codes des autres comme on peut voir dans l'historique du projet sur github
 
+le code final est dans code 3
+
 mode d'emploi: 
 1) mettre 0(si pas de compte) ou 1 (si on a deja un compte)
     1.1)si pas de compte alors on demande de taper une somme a mettre dans la carte puis les information de la carte avec le solde donner, le numéro de carte et le code pin fait aléatoirement, le plafon qui est de 500 pour tous les comptes creer
